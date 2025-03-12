@@ -80,11 +80,16 @@ const products = [
       category: "Електроніка",
     },
   ];
+const cart =[]
  
   const productsList = document.getElementById('productsList')
   const searchInput = document.getElementById('searchInput')
+  const addProductForm = document.getElementById('addProductForm')
+  const saveProduct = document.getElementById('saveProduct')
+
 
   function displayProducts(productsArr) {
+    productsList.innerHTML = ''
     productsArr.forEach(product => {
       const productElement = document.createElement('div')
       productElement.className = 'col'
@@ -96,7 +101,7 @@ const products = [
             <p class="card-text">${product.description}</p>
             <p class="card-text">${product.category}</p>
             <p class="card-text">Ціна: ${product.price}грн.</p>
-            <button class="btn btn-primary">Купити</button>
+            <button class="btn btn-primary" onclick="addToCart(${product.id})">Купити</button>
           </div>
         </div>
       `
@@ -112,9 +117,56 @@ const products = [
     displayProducts(filterProducts)
   }
 
-  searchInput.addEventListener('input',e => {
+  function addProduct(event) {
+   event.preventDefault() 
+   const name = document.getElementById('productName').value
+   const description = document.getElementById('productDescription').value
+   const price = document.getElementById('productPrice').value
+   const image = document.getElementById('productImage').value
+   const category = document.getElementById('productСategory').value
+
+   const newProduct = {
+    id: products.length + 1,
+    name,
+    description,
+    price,
+    image,
+    category
+   }
+   products.push(newProduct)
+   displayProducts(products)
+   addProductForm.reset()
+  }
+
+  function addToCart(productId) {
+    const product = products.find(product => product.id === productId)
+    if(product) cart.push(product)
+    displayCart()
+  }
+
+  function displayCart() {
+    const cartList = document.getElementById('cartList')
+    cartList.innerHTML =''
+
+    cart.forEach(product => {
+      const cartItem = document.createElement('div')
+      cartItem.innerHTML = `
+        <div>
+            <h5>${product.name}</h5>
+            <p>${product.description}</p>
+            <p>${product.category}</p>
+        </div>
+      `
+      cartList.appendChild(cartItem)
+    })
+
+  }
+
+  addProductForm.addEventListener('submit', addProduct)
+
+  searchInput.addEventListener('input', e => {
     const query = e.target.value
-    productsList.innerHTML = ''
+    
     filterProducs(query)
   })
 
