@@ -151,7 +151,7 @@ const cart =[]
     const cartList = document.getElementById('cartList')
     cartList.innerHTML =''
 
-    cart.forEach(product => {
+    cart.forEach((product, index) => {
       const cartItem = document.createElement('div')
       cartItem.innerHTML = `
         <div>
@@ -159,6 +159,7 @@ const cart =[]
             <p>${product.description}</p>
             <p>${product.category}</p>
             <p>${product.price}</p>
+            <button class="btn btn-danger" onclick="removeFromCart(${index})">Видалити</button>
             <hr>
         </div>
       `
@@ -176,7 +177,10 @@ const cart =[]
 
 
 ////!	Видаляти з корзини
-
+function removeFromCart(index) {
+  cart.splice(index, 1)
+  displayCart()
+}
 
 ////! Загальна сума до оплати
 
