@@ -119,33 +119,35 @@ const cart =[]
     displayProducts(filterProducts)
   }
 
-  function addProduct(event) {
-   event.preventDefault() 
-   const name = document.getElementById('productName').value
-   const description = document.getElementById('productDescription').value
-   const price = document.getElementById('productPrice').value
-   const image = document.getElementById('productImage').value
-   const category = document.getElementById('productCategory').value
-
-   const newProduct = {
-    id: products.length + 1,
-    name,
-    description,
-    price,
-    image,
-    category
-   }
-   products.push(newProduct)
-   displayProducts(products)
-   addProductForm.reset()
+  function addProduct(event){
+    event.preventDefault()
+  
+    const name = document.getElementById('productName').value
+    const description = document.getElementById('productDescription').value
+    const price = document.getElementById('productPrice').value
+    const image = document.getElementById('productImage').value
+    const category = document.getElementById('productCategory').value
+  
+    const newProduct = {
+      id: products.length + 1,
+      name,
+      description,
+      price,
+      image,
+      category
+    }
+    products.push(newProduct)
+    displayProducts(products)
+    addProductForm.reset()
   }
 
-  function addToCart(productId) {
+  function addToCart(productId){
     const product = products.find(product => product.id === productId)
-    if(product) cart.push(product)
-    displayCart()
-    updateCartButton()
-  }
+    if (product){
+      cart.push(product)
+      displayCart()
+    } 
+  }  
 
   function displayCart() {
     const cartList = document.getElementById('cartList')
@@ -158,7 +160,7 @@ const cart =[]
             <h5>${product.name}</h5>
             <p>${product.description}</p>
             <p>${product.category}</p>
-            <p>${product.price}</p>
+            <p>Ціна: ${product.price}</p>
             <button class="btn btn-danger" onclick="removeFromCart(${index})">Видалити</button>
             <hr>
         </div>
