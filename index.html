@@ -10,15 +10,15 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav id="menu" class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <button type="button" class="btn btn-primary" style="background: rgb(200, 38, 38); border: none;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <button id="add" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Додати товар
           </button>
-          <button type="button" id="buy" class="btn btn-primary" style="background: rgb(200, 38, 38); border: none;" data-bs-toggle="modal" data-bs-target="#carts">
+          <button id="buy" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#carts">
             Кошик (0)
           </button>
           <div class="collapse navbar-collapse" id="navbarScroll">
@@ -28,8 +28,8 @@
               </li>
             </ul>
             <form class="d-flex">
-              <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
+              <input id="searchInput" class="form-control me-2" type="search" placeholder="Пошук" aria-label="Search">
+              <button id="search" class="btn btn-outline-success" type="submit">Пошук</button>
             </form>
           </div>
         </div>
@@ -44,7 +44,7 @@
         <div class="modal-content">
           <form id="addProductForm">      
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Добавити товар</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Додати товар</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -55,8 +55,8 @@
              <input class="form-control mb-3" type="text" id="productCategory" placeholder="Категорія товару" required>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button id="saveProduct" type="submit" class="btn btn-primary" style="background: rgb(200, 38, 38); border: none;">Save</button>
+              <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+              <button id="saveProduct" type="submit" class="btn btn-primary">Зберегти</button>
             </div>
           </form>  
         </div>
@@ -72,12 +72,12 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-             <div id="cartList">
-             </div>
+             <div id="cartList"></div>
+             <h3 id="totalPrice">Загальна сума покупки: 0 грн.</h3>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button id="saveProduct" type="submit" class="btn btn-primary" style="background: rgb(200, 38, 38); border: none;">Оплатити</button>
+              <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+              <button id="saveProduct" type="submit" class="btn btn-primary">Оплатити</button>
             </div>
           </form>  
         </div>

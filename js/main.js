@@ -88,8 +88,8 @@ const cart =[]
   const addProductForm = document.getElementById('addProductForm')
   const saveProduct = document.getElementById('saveProduct')
   const buy = document.getElementById('buy')
-
-
+  const totalPrice = document.getElementById('totalPrice')
+  
   function displayProducts(productsArr) {
     productsList.innerHTML = ''
     productsArr.forEach(product => {
@@ -101,9 +101,9 @@ const cart =[]
           <div class="card-body">
             <h5 class="card-title">${product.name}</h5>
             <p class="card-text">${product.description}</p>
-            <p class="card-text">${product.category}</p>
+            <p class="card-text">Категорія: ${product.category}</p>
             <p class="card-text">Ціна: ${product.price}грн.</p>
-            <button class="btn btn-primary" style="background: rgb(200, 38, 38); border: none;" onclick="addToCart(${product.id})">Купити</button>
+            <button id="buyProduct" class="btn btn-primary" onclick="addToCart(${product.id})">Купити</button>
           </div>
         </div>
       `
@@ -142,12 +142,19 @@ const cart =[]
   }
 
   function addToCart(productId){
-    const product = products.find(product => product.id === productId)
-    if (product){
-      cart.push(product)
-      displayCart()
-    } 
-  }  
+    const productInCart = cart.find(item => item.id === productId)
+
+    if (productInCart) {
+        productInCart.quantity += 1
+    } else {
+        const product = products.find(product => product.id === productId)
+        if (product) {
+            cart.push({ ...product, quantity: 1 })
+        }
+    }
+    displayCart()
+    updateCartButton()
+}
 
   function displayCart() {
     const cartList = document.getElementById('cartList')
@@ -161,22 +168,41 @@ const cart =[]
             <p>${product.description}</p>
             <p>${product.category}</p>
             <p>Ціна: ${product.price}</p>
-            <button class="btn btn-danger" onclick="removeFromCart(${index})">Видалити</button>
+            <p>Кількість: 
+                <button class="btn btn-sm btn-secondary" onclick="decreaseQuantity(${index})">-</button>
+                <span>${product.quantity}</span>
+                <button class="btn btn-sm btn-secondary" onclick="increaseQuantity(${index})">+</button>
+            </p>
+            <p>Разом: ${product.price * product.quantity} грн.</p>
+            <button class="btn btn-danger" onclick="removeFromCart(${index})">Видалити даний товар</button>
             <hr>
         </div>
       `
       cartList.appendChild(cartItem)
     })
-    updateCartButton();
+    calculateTotal()
+    updateCartButton()
   }
 
-  ////! Кількість товарів у кошику
+  ////! Показує кількість товарів у кошику
   function updateCartButton() {
     buy.textContent = `Кошик (${cart.length})`
 }
 
 ////! Змінювати к-ть товарів в корзині
+  function increaseQuantity(index) {
+    cart[index].quantity += 1;
+    displayCart();
+  }
 
+  function decreaseQuantity(index) {
+    if (cart[index].quantity > 1) {
+        cart[index].quantity -= 1
+    } else {
+        removeFromCart(index)
+    }
+    displayCart();
+  }
 
 ////!	Видаляти з корзини
 function removeFromCart(index) {
@@ -185,12 +211,16 @@ function removeFromCart(index) {
 }
 
 ////! Загальна сума до оплати
+  function calculateTotal() {
+    const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    document.getElementById('totalPrice').textContent = `Загальна сума: ${totalPrice} грн.`
+  }
 
   addProductForm.addEventListener('submit', addProduct)
 
   searchInput.addEventListener('input', e => {
     const query = e.target.value
-    
+      
     filterProducts(query)
   })
 
